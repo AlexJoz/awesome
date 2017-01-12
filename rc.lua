@@ -41,8 +41,8 @@ end
 beautiful.init("/home/yakimbee/.config/awesome/themes/rbown/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
-terminal = "LXTerminal"
-editor = "nano"
+terminal = "Terminator"
+editor = "subl"
 editor_cmd = terminal .. " -e " .. editor
 
 -- Default modkey.
