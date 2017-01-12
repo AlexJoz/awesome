@@ -99,7 +99,7 @@ myawesomemenu = {
 mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
                                     { "firefox", "firefox" },
                                     { "terminal", "terminator" },
-                                    { "vlc", "vlc" },
+                                    { "Files", "pcmanfm-qt" },
                                     { "shutdown", "shutdown -Ph now" },
                                     { "reboot", "reboot" }
                                   }
