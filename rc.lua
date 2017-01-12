@@ -148,6 +148,44 @@ mytextclock = awful.widget.textclock("  %a %b %d  |  %H:%M  ")
 -- )
 
 
+-- J FUNCTIONS
+
+function context_menu(c)
+    if c.minimized then                               --меняем текст элемента меню в зависимости от состояния
+         cli_min = "Maximize"
+    else
+         cli_min = "Minimize"
+    end
+    if c.ontop then
+         cli_top = "★ Ontop"
+     else
+         cli_top = "  Ontop"
+    end
+    if awful.client.floating.get(c) then
+         cli_float = "★ Floating"
+     else
+         cli_float = "  Floating"
+     end
+
+     taskmenu = awful.menu({ items = { 
+     								 { cli_min, function() c.minimized = not c.minimized end },
+                                     { cli_float,  function() awful.client.floating.toggle(c) end },
+                                     { cli_top, function() c.ontop = not c.ontop end },
+                                     { "Close", function() c:kill() end },
+                                     }
+                            })
+     taskmenu:show()
+
+     return taskmenu
+end
+
+
+
+
+
+
+
+
 
 -- Create a wibox for each screen and add it
 mywibox = {}
@@ -180,14 +218,14 @@ mytasklist.buttons = awful.util.table.join(
                                                   c:raise()
                                               end
                                           end),
-                     awful.button({ }, 3, function ()
-                                              if instance then
-                                                  instance:hide()
-                                                  instance = nil
-                                              else
-                                                  instance = awful.menu.clients({ width=250 })
-                                              end
-                                          end),
+                     awful.button({ }, 3, function (c)
+			          						  if instance then
+			              						instance:hide()
+			              						instance = nil
+			           						  else
+			              						instance = context_menu(c)
+			           						  end
+			         					  end ),
                      awful.button({ }, 4, function ()
                                               awful.client.focus.byidx(1)
                                               if client.focus then client.focus:raise() end
@@ -246,6 +284,7 @@ root.buttons(awful.util.table.join(
     awful.button({ }, 3, function () mymainmenu:toggle() end),
     awful.button({ }, 4, awful.tag.viewnext),
     awful.button({ }, 5, awful.tag.viewprev)
+
 ))
 -- }}}
 
