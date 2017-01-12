@@ -90,8 +90,6 @@ end
 -- {{{ Menu
 -- Create a laucher widget and a main menu
 myawesomemenu = {
-   { "manual", terminal .. " -e man awesome" },
-   { "edit config", editor_cmd .. " " .. awesome.conffile },
    { "restart", awesome.restart },
    { "quit", awesome.quit }
 }
@@ -99,9 +97,10 @@ myawesomemenu = {
 mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
                                     { "firefox", "firefox" },
                                     { "terminal", "terminator" },
+                                    { "Sublime", "subl" },
                                     { "Files", "pcmanfm-qt" },
-                                    { "shutdown", "shutdown -Ph now" },
-                                    { "reboot", "reboot" }
+                                    { "shutdown", "/sbin/shutdown -h now" },
+                                    { "reboot", "/sbin/shutdown -r now" }
                                   }
                         })
 
