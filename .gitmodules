@@ -1,3 +1,6 @@
 [submodule "xkb-switch"]
 	path = xkb-switch
 	url = https://github.com/ierton/xkb-switch
+[submodule "vicious"]
+	path = vicious
+	url = https://github.com/Mic92/vicious.git
