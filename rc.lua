@@ -10,6 +10,7 @@ local beautiful = require("beautiful")
 -- Notification library
 local naughty = require("naughty")
 local menubar = require("menubar")
+local vicious = require("vicious")
 
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
@@ -114,10 +115,28 @@ menubar.utils.terminal = terminal -- Set the terminal for applications that requ
 -- {{{ Wibox
 -- Create a textclock widget
 hour = os.date("*t").hour
-mytextclock = awful.widget.textclock("  %a %b %d  |  %H:%M  ")
+mytextclock = awful.widget.textclock("%a  %d.%m  %H:%M ")
 
 
--- J FUNCTIONS
+spacer       = wibox.widget.textbox()
+spacer:set_text(' | ')
+
+
+-- {{{ Start Mem
+memicon = wibox.widget.imagebox()
+memicon:set_image(beautiful.widget_ram)
+--
+mem = wibox.widget.textbox()
+vicious.register(mem, vicious.widgets.mem, "Mem: $1%  Swap: $5%", 2)
+-- End Mem }}}
+
+-- {{{ Start Wifi
+wifiicon = wibox.widget.imagebox()
+wifiicon:set_image(beautiful.widget_wifi)
+--
+wifi = wibox.widget.textbox()
+vicious.register(wifi, vicious.widgets.wifi, "${ssid}: ${link}%", 3, "wlp3s0")
+-- End Wifi }}}
 
 function context_menu(c)
     if c.minimized then                               --меняем текст элемента меню в зависимости от состояния
@@ -233,8 +252,15 @@ for s = 1, screen.count() do
     -- Widgets that are aligned to the right
     local right_layout = wibox.layout.fixed.horizontal()
     if s == 1 then right_layout:add(wibox.widget.systray()) end
+    right_layout:add(spacer)
+    right_layout:add(wifiicon)
+    right_layout:add(wifi)
+    right_layout:add(spacer)
+    right_layout:add(memicon)
+    right_layout:add(mem)
+    right_layout:add(spacer)
     right_layout:add(mytextclock)
-    right_layout:add(mylayoutbox[s])
+
 
 
     -- Now bring it all together (with the tasklist in the middle)
