@@ -12,6 +12,13 @@ local naughty = require("naughty")
 local menubar = require("menubar")
 local vicious = require("vicious")
 
+local home = os.getenv("HOME")
+local confdir = home .. "/.config/awesome"
+local themes = confdir .. "/themes"
+local wallpapers = confdir .. "/wallpapers"
+local icons = confdir .. "/icons"
+local active_theme = themes .. "/rbown"
+
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
 -- another config (This code will only ever execute for the fallback config)
@@ -36,10 +43,17 @@ do
     end)
 end
 -- }}}
-
 -- {{{ Variable definitions
 -- Themes define colours, icons, and wallpapers
-beautiful.init("/home/yakimbee/.config/awesome/themes/rbown/theme.lua")
+beautiful.init(active_theme .. "/theme.lua")
+--beautiful.wallpaper = wallpapers .. "/pacman.jpg"
+beautiful.wallpaper = wallpapers .. "/cold-snow-black-and-white-train.jpeg"
+
+if beautiful.wallpaper then
+    for s = 1, screen.count() do
+        gears.wallpaper.maximized(beautiful.wallpaper, s, true)
+    end
+end
 
 -- This is used later as the default terminal and editor to run.
 terminal = "Terminator"
@@ -69,14 +83,6 @@ local layouts =
     awful.layout.suit.max.fullscreen,
     awful.layout.suit.magnifier
 }
--- }}}
-
--- {{{ Wallpaper
---if beautiful.wallpaper then
-    --for s = 1, screen.count() do
-        --gears.wallpaper.maximized(beautiful.wallpaper, s, true)
-    --end
---end
 -- }}}
 
 -- {{{ Tags
