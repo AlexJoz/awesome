@@ -29,3 +29,11 @@ The simplest workaround is to leave the compatibility modifier unset.  This is a
 
 in xkb/compat/basic (located under /usr/share/X11 or a similar place).
 ```
+To change the defaul program for different filetypes:
+Open a terminal where your file is and do the folloing command
+
+```
+mimeopen -d your.file
+```
+
+and input default =)
