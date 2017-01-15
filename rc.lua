@@ -144,6 +144,18 @@ wifi = wibox.widget.textbox()
 vicious.register(wifi, vicious.widgets.wifi, "${ssid}: ${link}%", 3, "wlp3s0")
 -- End Wifi }}}
 
+-- {{{ Volume 
+volumewidget = wibox.widget.textbox()
+vicious.register( volumewidget, vicious.widgets.volume, "<span color=\"#f39d21\">♫ $1%</span>", 1, "Master" )
+volumewidget:buttons(awful.util.table.join(
+    awful.button({ }, 1, function () awful.util.spawn("amixer -D pulse sset Master toggle", false) end),
+    awful.button({ }, 4, function () awful.util.spawn("amixer -D pulse sset Master 5%+", false) end),
+    awful.button({ }, 5, function () awful.util.spawn("amixer -D pulse sset Master 5%-", false) end)
+ ))
+
+
+---}}}
+
 function context_menu(c)
     if c.minimized then                               --меняем текст элемента меню в зависимости от состояния
          cli_min = "Maximize"
@@ -264,6 +276,8 @@ for s = 1, screen.count() do
     right_layout:add(spacer)
     right_layout:add(memicon)
     right_layout:add(mem)
+    right_layout:add(spacer)
+    right_layout:add(volumewidget)
     right_layout:add(spacer)
     right_layout:add(mytextclock)
 
