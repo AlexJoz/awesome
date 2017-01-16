@@ -142,17 +142,26 @@ wifiicon:set_image(beautiful.widget_wifi)
 --
 wifi = wibox.widget.textbox()
 vicious.register(wifi, vicious.widgets.wifi, "${ssid}: ${link}%", 3, "wlp3s0")
+
 -- End Wifi }}}
 
 -- {{{ Volume 
-volumewidget = wibox.widget.textbox()
-vicious.register( volumewidget, vicious.widgets.volume, "<span color=\"#f39d21\">♫ $1%</span>", 1, "Master" )
-volumewidget:buttons(awful.util.table.join(
-    awful.button({ }, 1, function () awful.util.spawn("amixer -D pulse sset Master toggle", false) end),
-    awful.button({ }, 4, function () awful.util.spawn("amixer -D pulse sset Master 5%+", false) end),
-    awful.button({ }, 5, function () awful.util.spawn("amixer -D pulse sset Master 5%-", false) end)
+volmute = wibox.widget.textbox()
+volwidget = wibox.widget.textbox()
+vicious.register(volwidget, vicious.widgets.volume,
+	function(widget, stuff)
+    if stuff[2] == "♫" then
+        volmute:set_text(stuff[1].." ♫")
+    else
+        volmute:set_text(stuff[1].." ○")
+    end
+    return ''
+    end, 1, "Master")
+volmute:buttons(awful.util.table.join(
+    awful.button({ }, 1, function () awful.util.spawn("amixer -q -D pulse sset Master toggle", false) end),
+    awful.button({ }, 4, function () awful.util.spawn("amixer -q -D pulse sset Master 5%+ unmute", false) end),
+    awful.button({ }, 5, function () awful.util.spawn("amixer -q -D pulse sset Master 5%- unmute", false) end)
  ))
-
 
 ---}}}
 
@@ -277,7 +286,8 @@ for s = 1, screen.count() do
     right_layout:add(memicon)
     right_layout:add(mem)
     right_layout:add(spacer)
-    right_layout:add(volumewidget)
+    right_layout:add(volwidget)
+    right_layout:add(volmute)
     right_layout:add(spacer)
     right_layout:add(mytextclock)
 
